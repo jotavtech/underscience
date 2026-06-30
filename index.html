@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#05060a">
+<meta name="description" content="UNDERSCIENCE — um laboratório interativo por baixo da realidade. Sete fenômenos vivos, calculados quadro a quadro no seu navegador.">
+<title>UNDERSCIENCE · a ciência por baixo da realidade</title>
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- palco -->
+<canvas id="stage"></canvas>
+
+<!-- texturas -->
+<div class="fx vignette"></div>
+<div class="fx scan"></div>
+
+<!-- molduras de instrumento -->
+<div class="frame tl"></div>
+<div class="frame tr"></div>
+<div class="frame bl"></div>
+<div class="frame br"></div>
+
+<!-- ===================== INTRO ===================== -->
+<section id="intro">
+  <div class="kicker">Laboratório interativo · <span id="specCount">7</span> espécimes vivos</div>
+  <h1 class="title">
+    <span class="u-under">UNDER</span><span class="u-science glitch" data-text="SCIENCE">SCIENCE</span>
+  </h1>
+  <div class="tagline">a ciência por baixo da realidade</div>
+  <p class="manifesto">
+    Existe uma ciência por baixo das coisas — não a dos manuais, mas a que
+    <em>pulsa quando ninguém está olhando</em>: padrões que se reproduzem,
+    bandos que decidem sem líder, ondas que se somam até virar forma.
+    Aqui nada está gravado. Tudo acontece <em>agora</em>, calculado quadro a
+    quadro, só pra você. Toque no espaço e veja o que responde.
+  </p>
+  <button class="enter" id="enterBtn"><span class="dot"></span> Entrar no laboratório</button>
+  <div class="intro-foot">feito enquanto você dormia · sem dependências · 100% no seu navegador</div>
+</section>
+
+<!-- ===================== UI ===================== -->
+<div id="ui">
+
+  <!-- topbar -->
+  <div id="topbar" class="pane">
+    <span class="brand">UNDERSCIENCE</span>
+    <span class="sep">·</span>
+    <span class="now" id="now">—</span>
+    <span class="sep">·</span>
+    <span class="stat"><b id="fps">60</b> fps</span>
+    <span class="sep">·</span>
+    <span class="stat" id="clock">00:00</span>
+  </div>
+
+  <!-- utilitários -->
+  <div id="util" class="pane">
+    <button class="ubtn on" id="btnAudio" title="Som (A)" aria-label="Som">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 10v4h4l5 4V6L7 10H3z"></path>
+        <path d="M16 9a4 4 0 0 1 0 6"></path>
+        <path d="M18.5 6.5a8 8 0 0 1 0 11"></path>
+      </svg>
+    </button>
+    <button class="ubtn" id="btnAbout" title="Sobre (?)" aria-label="Sobre">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="9"></circle>
+        <path d="M12 16v-4"></path>
+        <circle cx="12" cy="8" r="0.6" fill="currentColor"></circle>
+      </svg>
+    </button>
+  </div>
+
+  <!-- rail de espécimes -->
+  <nav id="rail" class="pane" aria-label="Espécimes"></nav>
+
+  <!-- painel de controles -->
+  <div id="controls" class="pane">
+    <div class="c-title" id="cTitle">—</div>
+    <div class="c-sub" id="cSub"></div>
+    <div class="c-desc" id="cDesc"></div>
+    <div id="cParams"></div>
+    <div class="c-actions">
+      <button class="btn" id="btnReset" title="Reiniciar (R)">Reiniciar</button>
+      <button class="btn" id="btnRandom" title="Aleatório (N)">Aleatório</button>
+    </div>
+  </div>
+
+  <!-- hint -->
+  <div id="hint" class="pane">
+    <span class="k">arraste</span> no espaço &nbsp;·&nbsp; <span class="k">1–7</span> trocam &nbsp;·&nbsp; <span class="k">A</span> som &nbsp;·&nbsp; <span class="k">N</span> aleatório
+  </div>
+</div>
+
+<!-- ===================== SOBRE ===================== -->
+<div id="about">
+  <div class="card">
+    <span class="close" id="aboutClose">[ fechar ]</span>
+    <div class="sub">Manifesto</div>
+    <h2>Underscience</h2>
+    <p>
+      Sete fenômenos. Cada um é uma simulação real — reação química, fluxo,
+      vida coletiva, ondas, gravidade, caos e crescimento — rodando ao vivo no
+      seu navegador. Nenhum vídeo, nenhuma imagem pré-renderizada: cada pixel é
+      calculado neste instante. Mexa nos controles, arraste no espaço, e veja a
+      matéria responder.
+    </p>
+    <div class="meta">
+      ATALHOS &nbsp; 1–7 trocam de espécime &nbsp;·&nbsp; ← → navegam<br>
+      A liga/desliga o som &nbsp;·&nbsp; R reinicia &nbsp;·&nbsp; N randomiza<br>
+      ⌁ há uma sequência oculta — digite o nome do lugar<br>
+      <br>
+      Construído sem dependências · Canvas 2D + Web Audio · domínio do João
+    </div>
+  </div>
+</div>
+
+<!-- scripts: núcleo primeiro, espécimes depois (registram-se sozinhos) -->
+<script src="js/noise.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/app.js"></script>
+<script src="js/experiments/reaction-diffusion.js"></script>
+<script src="js/experiments/flow-field.js"></script>
+<script src="js/experiments/boids.js"></script>
+<script src="js/experiments/cymatics.js"></script>
+<script src="js/experiments/gravity.js"></script>
+<script src="js/experiments/strange-attractor.js"></script>
+<script src="js/experiments/lsystem.js"></script>
+</body>
+</html>

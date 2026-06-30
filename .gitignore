@@ -1,0 +1,5 @@
+# nada para construir — projeto autossuficiente
+node_modules/
+.DS_Store
+*.log
+.cache/
