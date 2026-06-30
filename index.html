@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<meta name="theme-color" content="#05060a" />
+<title>UNDERSCIENCE — an audiovisual experiment</title>
+<meta name="description" content="A fully procedural, audio-reactive WebGL experience. No images, no recordings — every pixel and every sound is generated in real time." />
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+<meta property="og:title" content="UNDERSCIENCE" />
+<meta property="og:description" content="The science beneath the surface — a generative, audio-reactive WebGL experience." />
+<meta property="og:type" content="website" />
+<link rel="stylesheet" href="styles/main.css" />
+</head>
+<body class="is-loading">
+
+  <!-- The whole experience renders here -->
+  <canvas id="stage" aria-hidden="true"></canvas>
+
+  <!-- Grain / scanline overlay handled in-shader; this is the soft vignette -->
+  <div class="vignette" aria-hidden="true"></div>
+
+  <!-- Custom cursor -->
+  <div class="cursor" id="cursor" aria-hidden="true"><span class="cursor__dot"></span><span class="cursor__ring"></span></div>
+
+  <!-- ====================== LOADING / ENTER GATE ====================== -->
+  <section class="gate" id="gate">
+    <div class="gate__inner">
+      <div class="gate__kicker">an audiovisual experiment · no images · no recordings</div>
+      <h1 class="gate__title" id="gateTitle">UNDERSCIENCE</h1>
+      <div class="gate__sub">the science beneath the surface</div>
+      <div class="gate__bar"><i id="loadBar"></i></div>
+      <button class="gate__enter" id="enterBtn" disabled>
+        <span>calibrating instruments…</span>
+      </button>
+      <div class="gate__hint">headphones recommended · everything you see and hear is generated live</div>
+    </div>
+  </section>
+
+  <!-- ====================== EXPERIENCE UI ====================== -->
+  <main class="hud" id="hud" aria-hidden="true">
+
+    <!-- chapter title / poetic line -->
+    <div class="chapter" id="chapter">
+      <div class="chapter__index" id="chapterIndex">01 / 05</div>
+      <h2 class="chapter__title" id="chapterTitle"></h2>
+      <p class="chapter__line" id="chapterLine"></p>
+    </div>
+
+    <!-- top-left wordmark -->
+    <div class="brand" id="brand">UNDER<span>SCIENCE</span></div>
+
+    <!-- chapter rail -->
+    <nav class="rail" id="rail" aria-label="chapters"></nav>
+
+    <!-- bottom controls -->
+    <div class="controls" id="controls">
+      <button class="ctl" id="prevBtn" title="previous (←)">‹</button>
+      <button class="ctl ctl--wide" id="autoBtn" title="autopilot (a)"><span id="autoLabel">auto ⏸</span></button>
+      <button class="ctl" id="soundBtn" title="sound (m)"><span id="soundLabel">sound on</span></button>
+      <button class="ctl" id="fsBtn" title="fullscreen (f)">⤢</button>
+      <button class="ctl" id="nextBtn" title="next (→)">›</button>
+    </div>
+
+    <div class="hint" id="hint">scroll · arrows · or just watch</div>
+  </main>
+
+  <!-- ====================== NO-WEBGL FALLBACK ====================== -->
+  <section class="fallback" id="fallback" hidden>
+    <h1>UNDERSCIENCE</h1>
+    <p>This experience needs WebGL, which your browser or device didn’t provide.
+       Try a recent Chrome, Firefox, Safari or Edge on a device with hardware
+       acceleration enabled.</p>
+  </section>
+
+  <!-- ====================== SCRIPTS (classic, ordered) ====================== -->
+  <script src="src/gl/shaders.js"></script>
+  <script src="src/gl/worlds/aether.js"></script>
+  <script src="src/gl/worlds/lattice.js"></script>
+  <script src="src/gl/worlds/currents.js"></script>
+  <script src="src/gl/worlds/genesis.js"></script>
+  <script src="src/gl/worlds/singularity.js"></script>
+  <script src="src/gl/post/post.js"></script>
+  <script src="src/gl/renderer.js"></script>
+  <script src="src/audio/engine.js"></script>
+  <script src="src/ui/cursor.js"></script>
+  <script src="src/ui/typography.js"></script>
+  <script src="src/main.js"></script>
+</body>
+</html>

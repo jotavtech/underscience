@@ -1,0 +1,23 @@
+{
+  "name": "underscience",
+  "version": "1.0.0",
+  "description": "A fully procedural, audio-reactive WebGL experience — every pixel and every sound generated in real time. No images, no recordings.",
+  "type": "commonjs",
+  "scripts": {
+    "serve": "node serve.js",
+    "validate": "xvfb-run -a node tools/validate-shaders.mjs",
+    "capture": "xvfb-run -a node tools/capture.mjs",
+    "gallery": "xvfb-run -a node tools/gallery.mjs"
+  },
+  "keywords": [
+    "webgl", "glsl", "shaders", "generative-art", "web-audio",
+    "audio-reactive", "creative-coding", "procedural"
+  ],
+  "author": "",
+  "license": "MIT",
+  "//": "The experience itself (index.html + src/ + styles/) has ZERO runtime dependencies. The packages below are dev-only: they power the headless shader compile-tests and screenshot tooling.",
+  "devDependencies": {
+    "gl": "^8.1.6",
+    "playwright-core": "^1.61.1"
+  }
+}

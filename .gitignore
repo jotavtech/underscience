@@ -1,0 +1,9 @@
+node_modules/
+package-lock.json
+npm-debug.log*
+
+# transient capture output (the curated gallery lives in docs/gallery/)
+tools/shots/
+
+.DS_Store
+*.log
