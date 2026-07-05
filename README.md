@@ -78,6 +78,18 @@ tamanho, DPI, ponteiro e som. Quer criar o seu? Copie um espécime existente.
 
 ---
 
+## Integração pyRevit MCP
+
+Este repositório também guarda a configuração da integração **pyRevit MCP** para
+o Claude Code (conecta o Claude ao Revit via Model Context Protocol). Veja:
+
+- [`CLAUDE.md`](CLAUDE.md) — regras de operação (conexão fixa, ordem de
+  inicialização, segurança, formato de resposta).
+- [`docs/pyrevit-mcp.md`](docs/pyrevit-mcp.md) — setup, configuração e troubleshooting.
+- [`.mcp.json.example`](.mcp.json.example) — template de configuração do MCP.
+
+---
+
 <div align="center">
 <sub>Canvas 2D · Web Audio · zero dependências · feito para rodar em qualquer lugar</sub>
 </div>
