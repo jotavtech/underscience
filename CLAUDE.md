@@ -19,6 +19,7 @@ _dentro_ do Revit e executa a API do Revit em tempo real. A tool exposta é
 Setup completo, instalação e troubleshooting: **`docs/pyrevit-mcp.md`**.
 Config de exemplo do MCP: **`.mcp.json.example`**.
 PRD do agente (como conectar + o que fazer): **`docs/PRD-pyrevit-mcp.md`**.
+PRD de modelagem de escritório (interiores, por texto + imagens): **`docs/PRD-modelagem-escritorio.md`**.
 
 ## Configuração de conexão (fixa — não alterar)
 
