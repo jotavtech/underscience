@@ -87,6 +87,7 @@ o Claude Code (conecta o Claude ao Revit via Model Context Protocol). Veja:
   inicialização, segurança, formato de resposta).
 - [`docs/pyrevit-mcp.md`](docs/pyrevit-mcp.md) — setup, configuração e troubleshooting.
 - [`docs/PRD-pyrevit-mcp.md`](docs/PRD-pyrevit-mcp.md) — PRD do agente: como conectar e o que o Claude deve fazer.
+- [`revit/`](revit/) — extensão pyRevit **UnderScience Tools** (botão *Cotar Paredes*: cota paredes automaticamente com o tipo de cota escolhido).
 - [`.mcp.json.example`](.mcp.json.example) — template de configuração do MCP.
 
 ---
