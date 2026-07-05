@@ -1,0 +1,5 @@
+title: "Cotar\nParedes"
+tooltip: >
+  Cota automaticamente as paredes retas (selecionadas, ou todas do view ativo)
+  usando o tipo de cota que voce escolher.
+author: "underscience lab"
