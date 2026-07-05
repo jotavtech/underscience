@@ -1,0 +1,16 @@
+{
+  "//": "Template de configuracao do pyRevit MCP para o Claude Code. Copie para .mcp.json e ajuste o caminho absoluto de main.py. Ver docs/pyrevit-mcp.md.",
+  "mcpServers": {
+    "revit": {
+      "command": "uv",
+      "args": [
+        "run",
+        "--with",
+        "mcp[cli]",
+        "mcp",
+        "run",
+        "/CAMINHO/ABSOLUTO/PARA/revit-mcp-python/main.py"
+      ]
+    }
+  }
+}
