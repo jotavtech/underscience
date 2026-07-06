@@ -15,6 +15,7 @@
   --mono: 'JetBrains Mono', ui-monospace, 'SF Mono', 'Cascadia Code', Menlo, Consolas, monospace;
   --disp: 'Space Grotesk', 'Inter', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --accent-bloom: 0.35;         /* intensidade do halo — controlada pelo Theatre.js */
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -398,6 +399,65 @@ canvas#stage {
 #about .close { position: absolute; top: 16px; right: 18px; cursor: pointer; color: var(--dim); font-family: var(--mono); }
 #about .close:hover { color: var(--fg); }
 #about .meta { margin-top: 22px; font-family: var(--mono); font-size: 10.5px; color: var(--dim-2); letter-spacing: 0.1em; line-height: 2; }
+
+/* ===================== camada de movimento (GSAP) ==================== */
+/* Quando o GSAP assume, as animações CSS da intro são neutralizadas para
+   evitar conflito — o motion.js controla opacidade/transform inline. */
+.motion-on .kicker,
+.motion-on .title,
+.motion-on .tagline,
+.motion-on .manifesto,
+.motion-on .enter,
+.motion-on .intro-foot,
+.motion-on .frame { animation: none !important; }
+
+/* halo do botão Entrar modulado pelo Theatre (--accent-bloom) */
+.enter { box-shadow: 0 0 calc(30px * var(--accent-bloom)) var(--accent-soft); }
+.spec.active { box-shadow: -1px 0 calc(24px * var(--accent-bloom)) var(--accent-soft); }
+
+/* cursor personalizado (anel magnético) — só em dispositivos com hover */
+body.has-cursor { cursor: none; }
+body.has-cursor canvas#stage { cursor: none; }
+body.has-cursor a,
+body.has-cursor button,
+body.has-cursor .spec,
+body.has-cursor input { cursor: none; }
+.cursor-dot, .cursor-ring {
+  position: fixed;
+  top: 0; left: 0;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  will-change: transform;
+}
+.cursor-dot {
+  width: 6px; height: 6px;
+  margin: -3px 0 0 -3px;
+  background: var(--accent);
+  box-shadow: 0 0 10px var(--accent);
+}
+.cursor-ring {
+  width: 34px; height: 34px;
+  margin: -17px 0 0 -17px;
+  border: 1px solid var(--accent);
+  opacity: 0.6;
+  transition: width 0.28s var(--ease), height 0.28s var(--ease),
+              margin 0.28s var(--ease), opacity 0.28s var(--ease),
+              background 0.28s var(--ease);
+}
+.cursor-ring.grow {
+  width: 60px; height: 60px;
+  margin: -30px 0 0 -30px;
+  opacity: 1;
+  background: var(--accent-soft);
+}
+.cursor-ring.press { width: 26px; height: 26px; margin: -13px 0 0 -13px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .cursor-dot, .cursor-ring { display: none; }
+  body.has-cursor { cursor: auto; }
+}
 
 /* ===================== animações ==================================== */
 @keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }

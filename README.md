@@ -68,6 +68,9 @@ css/style.css           # sistema visual
 js/noise.js             # ruído simplex 2D/3D (domínio público)
 js/audio.js             # motor de áudio ambiente generativo (Web Audio)
 js/app.js               # host: registro, loop, ponteiro, UI, climas musicais
+js/motion.js            # camada de movimento GSAP (intro, cursor, transições)
+js/theatre.js           # integração Theatre.js (editor visual, estado em JSON)
+js/theatre-state.json   # estado do Theatre.js (você edita / exporta)
 js/experiments/*.js     # os sete espécimes, cada um autossuficiente
 ```
 
@@ -75,6 +78,40 @@ Cada espécime se registra via `UNDERSCIENCE.register({...})` e implementa um
 contrato simples (`frame`, `pointer`, `resize`, `setParam`, `reset`,
 `dispose`). O host roda um único loop de `requestAnimationFrame` e cuida de
 tamanho, DPI, ponteiro e som. Quer criar o seu? Copie um espécime existente.
+
+## Camada de movimento (GSAP + Theatre.js)
+
+As simulações continuam **zero-dependência** (Canvas 2D puro). Por cima delas,
+uma camada de movimento *opcional e progressiva* dá polimento cinematográfico:
+
+- **GSAP + ScrollTrigger** (`js/motion.js`, via CDN) — timeline declarativa da
+  intro, cursor personalizado com anel magnético, botões magnéticos, entrada
+  em cascata do HUD e transição animada do acento a cada troca de espécime.
+  Ajuste tudo no objeto `TUNE` no topo de `motion.js` — é declarativo de
+  propósito. Se o GSAP não carregar (offline/`file://`), o site cai de volta
+  nas animações CSS sem quebrar, e `prefers-reduced-motion` é respeitado.
+
+- **Theatre.js** (`js/theatre.js`, via CDN ESM) — editor visual de animação
+  cujo **estado é o arquivo `js/theatre-state.json`**. Fluxo IA + humano:
+  1. abra o site com `?edit` na URL (ou em `localhost`) → o **Studio** abre;
+  2. anime o objeto **`Hero`** (brilho do título, halo de acento, vinheta,
+     scanlines) na timeline visual;
+  3. no Studio: menu do projeto → **Export** → salve por cima de
+     `js/theatre-state.json` e faça commit;
+  4. em produção (sem `?edit`), o core apenas **toca** esse JSON.
+
+  Enquanto o JSON for o placeholder (`definitionVersion: null`), o site usa os
+  valores padrão definidos em `js/theatre.js`.
+
+### E o @react-three/drei / r3f-perf / leva?
+
+Esses três são do ecossistema **React + react-three-fiber (R3F)**. O site hoje
+é HTML/JS vanilla, sem React nem cena Three.js, e faz deploy estático sem build
+— então eles não entram sem uma migração para React + R3F + bundler (Vite).
+Isso é um passo maior e à parte: o trabalho de GSAP/Theatre acima é aditivo,
+reversível e um subconjunto do que uma migração R3F reusaria. Quando/se
+quisermos a rota 3D, `drei` (helpers), `r3f-perf` e `leva` (medição/tuning)
+entram nessa etapa.
 
 ---
 

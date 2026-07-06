@@ -1,0 +1,6 @@
+{
+  "__doc__": "Estado do Theatre.js. Este arquivo e um PLACEHOLDER. Para gerar o de verdade: abra o site com ?edit na URL, anime o objeto 'Hero' na timeline do Studio, e exporte (menu do projeto -> Export) salvando por cima deste arquivo. Enquanto 'definitionVersion' for null, o site usa os valores padrao definidos em js/theatre.js.",
+  "definitionVersion": null,
+  "sheetsById": {},
+  "revisionHistory": []
+}
