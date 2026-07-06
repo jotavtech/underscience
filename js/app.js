@@ -62,6 +62,8 @@
 
   // ------- estado -------
   var canvas, current = null, currentSpec = null, currentIndex = -1;
+  var prevAccent = '#00e5ff';   // acento anterior (para a transição animada)
+  var entered = false;          // já saiu da intro? (atalhos só valem depois)
   var startTime = 0, lastTime = 0, running = false;
   var fpsAvg = 60, fpsAccum = 0, fpsCount = 0, fpsTimer = 0;
   var hadError = false;
@@ -150,10 +152,15 @@
     currentSpec = spec;
     hadError = false;
 
-    // cor de acento global
+    // cor de acento global — animada pela camada de movimento quando disponível
     var acc = spec.accent || PALETTE.accents[0];
-    document.documentElement.style.setProperty('--accent', acc);
-    document.documentElement.style.setProperty('--accent-soft', hexToRgba(acc, 0.16));
+    if (window.USMotion && window.USMotion.ready) {
+      USMotion.activate(spec, prevAccent);
+    } else {
+      document.documentElement.style.setProperty('--accent', acc);
+      document.documentElement.style.setProperty('--accent-soft', hexToRgba(acc, 0.16));
+    }
+    prevAccent = acc;
 
     clearStage();
 
@@ -300,9 +307,9 @@
 
   // ------- intro / boot -------
   function enter() {
+    if (entered) return;
+    entered = true;
     var intro = el('intro');
-    intro.classList.add('gone');
-    el('ui').classList.add('show');
     audio.start();
     refreshAudioBtn();
     var saved = -1;
@@ -310,7 +317,17 @@
       var id = localStorage.getItem('us:spec');
       if (id) saved = SPECS.findIndex(function (s) { return s.id === id; });
     } catch (e) {}
-    activate(saved >= 0 ? saved : 0);
+    var startIndex = saved >= 0 ? saved : 0;
+
+    if (window.USMotion && window.USMotion.ready) {
+      el('ui').classList.add('show');
+      USMotion.enter();
+      activate(startIndex);
+    } else {
+      intro.classList.add('gone');
+      el('ui').classList.add('show');
+      activate(startIndex);
+    }
     setTimeout(function () { var h = el('hint'); if (h) h.style.opacity = '0'; }, 9000);
   }
 
@@ -318,7 +335,7 @@
   var keyBuf = '';
   function setupKeys() {
     window.addEventListener('keydown', function (e) {
-      if (el('intro') && !el('intro').classList.contains('gone')) {
+      if (!entered) {
         if (e.key === 'Enter' || e.key === ' ') { enter(); }
         return;
       }
@@ -336,7 +353,10 @@
     });
   }
 
-  function toggleAbout() { el('about').classList.toggle('show'); }
+  function toggleAbout() {
+    var open = el('about').classList.toggle('show');
+    if (open && window.USMotion && window.USMotion.ready) USMotion.about(true);
+  }
 
   // sequência secreta: passeia por todos os espécimes randomizando.
   function secret() {
@@ -376,6 +396,9 @@
     // ordem estável conforme MOODS / preferência
     buildRail();
     el('specCount').textContent = SPECS.length;
+
+    // revela a intro com a timeline cinematográfica (se a camada existir)
+    if (window.USMotion && window.USMotion.ready) USMotion.introReveal();
   }
 
   if (document.readyState === 'loading') {
